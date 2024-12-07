@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalender 2025</title>
+    <style>
+	    h1 {
+		    text-align: center;
+			margin-bottom: 50px;
+		}
+        body {
+            font-family: poppins, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .calendar-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .month {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: calc(33.33% - 20px);
+            min-width: 300px;
+            box-sizing: border-box;
+        }
+        .month-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 3px;
+        }
+        th, td {
+            text-align: center;
+            padding: 8px;
+            position: relative;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: normal;
+        }
+        td {
+            border-radius: 4px;
+        }
+        .holiday {
+            background-color: #ffcccb;
+            cursor: pointer;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            z-index: 1000;
+            display: none;
+            max-width: 250px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        @media (max-width: 1200px) {
+            .month {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 768px) {
+            .month {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>Kalender Tahun 2025</h1>
+    <div class="calendar-container" id="calendar"></div>
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const holidays = {
+            '2025-01-01': 'Tahun Baru 2025',
+			'2025-01-27': 'Kenaikan Nabi Muhammad SAW - Isra Mikraj Nabi Muhammad SAW',
+			'2025-01-28': 'Cuti Bersama Tahun Baru Imlek',
+			'2025-01-29': 'Tahun Baru Imlek',
+            '2025-03-02': 'Ramadhan (Belum pasti sih cuy)',
+            '2025-03-28': 'Cuti Bersama Hari Raya Nyepi',
+            '2025-03-29': 'Hari Suci Nyepi (Tahun Baru Saka)',
+			'2025-03-31': 'Hari Raya Idul Fitri',
+            '2025-04-01': 'Hari Raya Idul Fitri',
+            '2025-04-02': 'Hari Raya Idul Fitri',
+            '2025-04-03': 'Hari Raya Idul Fitri',
+            '2025-04-04': 'Hari Raya Idul Fitri',
+			'2025-04-18': 'Wafat Yesus',
+			'2025-04-20': 'Hari Paskah (Easter Sunday)',
+            '2025-05-01': 'Hari Buruh Internasional (Labor Day)',
+			'2025-05-12': 'Hari Raya Waisak',
+			'2025-05-13': 'Cuti Bersama Waisak',
+			'2025-05-29': 'Kenaikan Isa Al Masih',
+			'2025-05-30': 'Cuti bersama Kenaikan Isa Al Masih',
+			'2025-06-01': 'Hari Lahir Pancasila (Pancasila Day)',
+			'2025-06-06': 'Hari Raya Idul Adha',
+			'2025-06-09': 'Hari Raya Idul Adha',
+			'2025-06-27': 'Satu Muhamaram (Tahun Baru Hijriah)',
+			'2025-08-17': 'Hari Proklamasi Kemerdekaan R.I',
+			'2025-09-05': 'Maulid Nabi Muhammad SAW (The Prophet Muhammad\'s Birthday)',
+			'2025-10-21': 'Diwali',
+        };
+
+        function createCalendar() {
+            const calendarContainer = document.getElementById('calendar');
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const daysOfWeek = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+
+            for (let month = 0; month < 12; month++) {
+                const monthElement = document.createElement('div');
+                monthElement.className = 'month';
+
+                const monthName = document.createElement('div');
+                monthName.className = 'month-name';
+                monthName.textContent = months[month];
+                monthElement.appendChild(monthName);
+
+                const table = document.createElement('table');
+                const headerRow = document.createElement('tr');
+                daysOfWeek.forEach(day => {
+                    const th = document.createElement('th');
+                    th.textContent = day;
+                    headerRow.appendChild(th);
+                });
+                table.appendChild(headerRow);
+
+                const firstDay = new Date(2025, month, 1);
+                const lastDay = new Date(2025, month + 1, 0);
+
+                let currentRow = document.createElement('tr');
+                
+                // Add empty cells for days before the first day of the month
+                for (let i = 0; i < firstDay.getDay(); i++) {
+                    const emptyCell = document.createElement('td');
+                    currentRow.appendChild(emptyCell);
+                }
+
+                for (let day = 1; day <= lastDay.getDate(); day++) {
+                    if (currentRow.children.length === 7) {
+                        table.appendChild(currentRow);
+                        currentRow = document.createElement('tr');
+                    }
+
+                    const cell = document.createElement('td');
+                    cell.textContent = day;
+
+                    const dateString = `2025-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    if (holidays[dateString]) {
+                        cell.className = 'holiday';
+                        cell.setAttribute('data-holiday', holidays[dateString]);
+                    }
+
+                    currentRow.appendChild(cell);
+                }
+
+                // Fill in remaining cells
+                while (currentRow.children.length < 7) {
+                    const emptyCell = document.createElement('td');
+                    currentRow.appendChild(emptyCell);
+                }
+                table.appendChild(currentRow);
+
+                monthElement.appendChild(table);
+                calendarContainer.appendChild(monthElement);
+            }
+        }
+
+        createCalendar();
+
+        const tooltip = document.getElementById('tooltip');
+        
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.classList.contains('holiday')) {
+                const rect = e.target.getBoundingClientRect();
+                
+                tooltip.textContent = e.target.getAttribute('data-holiday');
+                tooltip.style.display = 'block';
+                
+                // Position tooltip
+                const tooltipRect = tooltip.getBoundingClientRect();
+                let left = rect.left + window.pageXOffset;
+                let top = rect.bottom + window.pageYOffset;
+                
+                // Adjust if tooltip would go off-screen
+                if (left + tooltipRect.width > window.innerWidth + window.pageXOffset) {
+                    left = rect.right - tooltipRect.width + window.pageXOffset;
+                }
+                if (top + tooltipRect.height > window.innerHeight + window.pageYOffset) {
+                    top = rect.top - tooltipRect.height + window.pageYOffset;
+                }
+                
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.classList.contains('holiday')) {
+                tooltip.style.display = 'none';
+            }
+        });
+
+        // Handle touch events for mobile
+        document.addEventListener('touchstart', (e) => {
+            if (e.target.classList.contains('holiday')) {
+                const rect = e.target.getBoundingClientRect();
+                tooltip.textContent = e.target.getAttribute('data-holiday');
+                tooltip.style.display = 'block';
+                
+                // Position tooltip for touch devices
+                const tooltipRect = tooltip.getBoundingClientRect();
+                let left = rect.left;
+                let top = rect.bottom + 5;
+                
+                // Adjust if tooltip would go off-screen
+                if (left + tooltipRect.width > window.innerWidth) {
+                    left = window.innerWidth - tooltipRect.width - 10;
+                }
+                if (top + tooltipRect.height > window.innerHeight) {
+                    top = rect.top - tooltipRect.height - 5;
+                }
+                
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+                
+                e.preventDefault(); // Prevent default touch behavior
+            } else {
+                tooltip.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
