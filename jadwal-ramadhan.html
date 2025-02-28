@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Imsakiyah Ramadhan 1446 H - Sragen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        h1 {
+            color: black;
+            font-size: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        th {
+            background-color: black;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        @media (max-width: 600px) {
+            th, td {
+                padding: 8px;
+                font-size: 12px;
+            }
+            h1 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Jadwal Imsakiyah Ramadhan 1446 H<br>Kabupaten Sragen</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Hari, Tanggal</th>
+                    <th>Imsak</th>
+                    <th>Subuh</th>
+                    <th>Zuhur</th>
+                    <th>Ashar</th>
+                    <th>Maghrib</th>
+                    <th>Isya</th>
+                </tr>
+            </thead>
+            <tbody id="jadwal-body">
+                <!-- Data akan dimasukkan oleh JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+const jadwalData = [
+    ["Sabtu, 1 Maret 2025", "04:15", "04:25", "11:52", "14:53", "17:59", "19:08"],
+    ["Minggu, 2 Maret 2025", "04:15", "04:25", "11:52", "14:53", "17:58", "19:08"],
+    ["Senin, 3 Maret 2025", "04:15", "04:25", "11:51", "14:53", "17:58", "19:07"],
+    ["Selasa, 4 Maret 2025", "04:15", "04:25", "11:51", "14:53", "17:57", "19:07"],
+    ["Rabu, 5 Maret 2025", "04:15", "04:25", "11:51", "14:54", "17:57", "19:06"],
+    ["Kamis, 6 Maret 2025", "04:15", "04:25", "11:51", "14:54", "17:57", "19:06"],
+    ["Jumat, 7 Maret 2025", "04:15", "04:25", "11:50", "14:55", "17:56", "19:05"],
+    ["Sabtu, 8 Maret 2025", "04:15", "04:25", "11:50", "14:55", "17:56", "19:05"],
+    ["Minggu, 9 Maret 2025", "04:16", "04:26", "11:50", "14:55", "17:55", "19:04"],
+    ["Senin, 10 Maret 2025", "04:16", "04:26", "11:50", "14:56", "17:55", "19:04"],
+    ["Selasa, 11 Maret 2025", "04:16", "04:26", "11:49", "14:56", "17:54", "19:03"],
+    ["Rabu, 12 Maret 2025", "04:16", "04:26", "11:49", "14:56", "17:54", "19:03"],
+    ["Kamis, 13 Maret 2025", "04:16", "04:26", "11:49", "14:56", "17:53", "19:02"],
+    ["Jumat, 14 Maret 2025", "04:15", "04:25", "11:49", "14:57", "17:53", "19:01"],
+    ["Sabtu, 15 Maret 2025", "04:15", "04:25", "11:48", "14:57", "17:52", "19:01"],
+    ["Minggu, 16 Maret 2025", "04:15", "04:25", "11:48", "14:57", "17:52", "19:00"],
+    ["Senin, 17 Maret 2025", "04:15", "04:25", "11:48", "14:57", "17:51", "19:00"],
+    ["Selasa, 18 Maret 2025", "04:15", "04:25", "11:47", "14:58", "17:51", "18:59"],
+    ["Rabu, 19 Maret 2025", "04:15", "04:25", "11:47", "14:58", "17:50", "18:59"],
+    ["Kamis, 20 Maret 2025", "04:15", "04:25", "11:47", "14:58", "17:50", "18:58"],
+    ["Jumat, 21 Maret 2025", "04:15", "04:25", "11:47", "14:59", "17:50", "18:58"],
+    ["Sabtu, 22 Maret 2025", "04:15", "04:25", "11:47", "14:59", "17:49", "18:58"],
+    ["Minggu, 23 Maret 2025", "04:15", "04:25", "11:46", "14:58", "17:48", "18:57"],
+    ["Senin, 24 Maret 2025", "04:15", "04:25", "11:46", "14:58", "17:48", "18:56"],
+    ["Selasa, 25 Maret 2025", "04:15", "04:25", "11:45", "14:58", "17:47", "18:56"],
+    ["Rabu, 26 Maret 2025", "04:15", "04:25", "11:45", "14:58", "17:47", "18:55"],
+    ["Kamis, 27 Maret 2025", "04:15", "04:25", "11:45", "14:59", "17:46", "18:55"],
+    ["Jumat, 28 Maret 2025", "04:14", "04:24", "11:44", "14:59", "17:46", "18:54"],
+    ["Sabtu, 29 Maret 2025", "04:14", "04:24", "11:44", "14:59", "17:45", "18:54"],
+    ["Minggu, 30 Maret 2025", "04:14", "04:24", "11:44", "14:59", "17:45", "18:53"],
+];
+
+    const tbody = document.getElementById("jadwal-body");
+    jadwalData.forEach(row => {
+        let tr = document.createElement("tr");
+        row.forEach(cell => {
+            let td = document.createElement("td");
+            td.textContent = cell;
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+</script>
+
+</body>
+</html>
