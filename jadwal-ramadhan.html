@@ -381,7 +381,7 @@ function renderTable(data) {
         // Tambahkan kolom tanggal dengan nomor hari
         let tdDate = document.createElement("td");
         const dateParts = row[0].split(',');
-        tdDate.innerHTML = `<span class="day-number">${dayNumber}</span>${dateParts[0]},${dateParts[1]}`;
+        tdDate.innerHTML = `${dateParts[0]},${dateParts[1]}`;
         tr.appendChild(tdDate);
         
         // Tambahkan kolom waktu shalat
